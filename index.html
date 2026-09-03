@@ -1,1 +1,283 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>yBecozz...</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+
+        <div class="stars">
+            <span>✦</span>
+            <span>✧</span>
+            <span>✦</span>
+            <span>·</span>
+            <span>✧</span>
+            <span>·</span>
+            <span>✦</span>
+            <span>✧</span>
+        </div>
+    </div>
+
+
+    <!-- NAV -->
+    <nav>
+
+        <div class="logo">
+            yBecozz<span>...</span>
+        </div>
+
+        <div class="step-indicator">
+            <span id="stepText">home</span>
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HOME ================= -->
+
+    <section id="homePage" class="page active">
+
+        <div class="hero">
+
+            <div class="eyebrow">
+                ✦ absolutely unnecessary technology
+            </div>
+
+            <h1>
+                yBecozz<span>...</span>
+            </h1>
+
+            <h2>
+                because sometimes<br>
+                <span>you need an excuse.</span>
+            </h2>
+
+            <p class="hero-text">
+                Tell us what went wrong.<br>
+                Survive a completely useless task.<br>
+                Receive an excuse you probably shouldn't use.
+            </p>
+
+            <button class="main-button" onclick="goToSituation()">
+                <span>okay... let's lie</span>
+                <span class="arrow">→</span>
+            </button>
+
+            <div class="floating-note note-one">
+                no thoughts. just excuses.
+            </div>
+
+            <div class="floating-note note-two">
+                100% unnecessary
+            </div>
+
+            <div class="floating-note note-three">
+                probably won't work
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SITUATION ================= -->
+
+    <section id="situationPage" class="page">
+
+        <div class="content-card">
+
+            <div class="page-number">
+                01 / 03
+            </div>
+
+            <h2>
+                okay so...
+                <span>what happened?</span>
+            </h2>
+
+            <p class="subtext">
+                We need the lore. Give us the situation.
+            </p>
+
+            <textarea
+                id="situation"
+                placeholder="e.g. bro i forgot to submit my assignment..."
+            ></textarea>
+
+            <div class="character-count">
+                <span id="charCount">0</span> characters of questionable information
+            </div>
+
+            <button class="main-button" onclick="startUselessTask()">
+                <span>continue →</span>
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= USELESS TASK ================= -->
+
+    <section id="taskPage" class="page">
+
+        <div class="content-card task-card">
+
+            <div class="page-number">
+                02 / 03
+            </div>
+
+            <div class="task-badge">
+                ⚠️ IMPORTANT
+            </div>
+
+            <h2>
+                before we give you<br>
+                your excuse...
+            </h2>
+
+            <p class="task-title">
+                you must complete this <span>extremely important</span> task.
+            </p>
+
+            <div class="useless-box">
+
+                <div class="task-instruction">
+                    <span id="taskEmoji">🦆</span>
+
+                    <p>
+                        <strong>Catch the duck.</strong><br>
+                        <small>
+                            This has absolutely nothing to do with your excuse.
+                        </small>
+                    </p>
+                </div>
+
+                <div id="gameArea">
+
+                    <button
+                        id="duck"
+                        onclick="catchDuck()"
+                    >
+                        🦆
+                    </button>
+
+                </div>
+
+                <div class="game-progress">
+                    <div class="game-progress-bar">
+                        <div id="gameProgress"></div>
+                    </div>
+
+                    <span>
+                        <span id="clickCount">0</span> / 10
+                    </span>
+                </div>
+
+            </div>
+
+            <p id="taskMessage" class="task-message">
+                catch it. trust us. this is extremely important.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= REWARD ================= -->
+
+    <section id="rewardPage" class="page">
+
+        <div class="reward-container">
+
+            <div class="page-number">
+                03 / 03
+            </div>
+
+            <div class="reward-label">
+                ✦ TASK COMPLETE ✦
+            </div>
+
+            <h2>
+                you earned an excuse.
+            </h2>
+
+            <p class="reward-subtext">
+                unfortunately... this is what we came up with.
+            </p>
+
+            <div class="excuse-reveal">
+
+                <div class="excuse-top">
+                    <span>YOUR EXCUSE</span>
+                    <span>💀</span>
+                </div>
+
+                <p id="finalExcuse">
+                    loading your disaster...
+                </p>
+
+                <div class="excuse-stamp">
+                    NOT PROFESSIONAL
+                </div>
+
+            </div>
+
+            <div class="reward-actions">
+
+                <button
+                    class="secondary-button"
+                    onclick="copyExcuse()"
+                >
+                    📋 steal this excuse
+                </button>
+
+                <button
+                    class="main-button"
+                    onclick="restart()"
+                >
+                    <span>i need another one</span>
+                    <span>↻</span>
+                </button>
+
+            </div>
+
+            <p id="copyMessage" class="copy-message"></p>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+        yBecozz... &nbsp;•&nbsp; absolutely no responsibility assumed.
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+```
