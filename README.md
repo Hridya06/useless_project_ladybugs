@@ -107,13 +107,13 @@ Alternatively, use the **Live Server** extension in VS Code for a smoother devel
 
 ### 3. Duck Game
 
-![Duck Game](duck game.png)
+![Duck Game](duckgame.png)
 
 *The user must catch the duck 10 times because apparently this is essential to generating an excuse.*
 
 ### 4. Reward Loading
 
-![Reward Loading](screenshots/reward-loading.png)
+![Reward Loading](screenshots/rewardloading.png)
 
 *The secret excuse database is accessed through a very serious and definitely legitimate loading process.*
 
