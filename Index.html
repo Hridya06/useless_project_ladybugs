@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=ZCOOL+KuaiLe&display=swap"
     rel="stylesheet"
   >
 
@@ -19,421 +19,335 @@
 
 <body>
 
-  <!-- BACKGROUND -->
   <div class="background">
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+    <div class="grain"></div>
 
-    <div class="stars">
-      <span>✦</span>
-      <span>✧</span>
-      <span>✦</span>
-      <span>·</span>
-      <span>✧</span>
-      <span>·</span>
-      <span>✦</span>
-      <span>✧</span>
-    </div>
+    <div class="blob blob-one"></div>
+    <div class="blob blob-two"></div>
+    <div class="blob blob-three"></div>
+
+    <div class="floating-symbol symbol-one">✦</div>
+    <div class="floating-symbol symbol-two">✳</div>
+    <div class="floating-symbol symbol-three">+</div>
+    <div class="floating-symbol symbol-four">✦</div>
   </div>
 
-
-  <!-- NAVIGATION -->
-  <nav>
-    <div class="logo">
-      yBecozz<span>...</span>
-    </div>
-
-    <div class="step-indicator">
-      <span id="stepText">home</span>
-    </div>
+  <!-- NAV -->
+  <nav class="nav">
+    <button class="logo-button" id="logoButton">
+      yBecozz...
+    </button>
   </nav>
 
 
-  <!-- ========================= -->
   <!-- HOME PAGE -->
-  <!-- ========================= -->
+  <main class="page active" id="homePage">
 
-  <section id="homePage" class="page active">
+    <section class="hero">
 
-    <div class="hero">
-
-      <div class="eyebrow">
-        ✦ absolutely unnecessary technology
+      <div class="tiny-pill">
+        THE INTERNET'S MOST UNNECESSARY WEBSITE
       </div>
 
-      <h1>
-        yBecozz<span>...</span>
-      </h1>
+      <h1>yBecozz...</h1>
 
-      <h2>
-        because sometimes<br>
-        <span>you need an excuse.</span>
-      </h2>
+      <h2>because sometimes you need an excuse.</h2>
 
-      <p class="hero-text">
-        Tell us what went wrong.<br>
-        Survive a completely useless task.<br>
-        Receive an excuse you probably shouldn't use.
+      <p class="hero-copy">
+        Life is hard. Explaining yourself is harder.<br>
+        Let us handle the important stuff.
       </p>
 
-      <!-- IMPORTANT: JavaScript finds this ID -->
-      <button
-        type="button"
-        class="main-button"
-        id="letsLieButton"
-      >
-        <span>okay... let's lie</span>
-        <span class="arrow">→</span>
+      <button class="main-button" id="letsLieButton">
+        okay... let's lie
+        <span>→</span>
       </button>
 
-      <div class="floating-note note-one">
-        no thoughts. just excuses.
-      </div>
+    </section>
 
-      <div class="floating-note note-two">
-        100% unnecessary
-      </div>
-
-      <div class="floating-note note-three">
-        probably won't work
-      </div>
-
-    </div>
-
-  </section>
+  </main>
 
 
-  <!-- ========================= -->
   <!-- SITUATION PAGE -->
-  <!-- ========================= -->
+  <main class="page" id="situationPage">
 
-  <section id="situationPage" class="page">
+    <section class="content-section">
 
-    <div class="content-card">
-
-      <div class="page-number">
-        01 / 03
+      <div class="section-label">
+        TELL US EVERYTHING
       </div>
 
-      <h2>
-        okay so... <span>what happened?</span>
-      </h2>
+      <h2>okay so... what happened?</h2>
 
-      <p class="subtext">
-        We need the lore. Give us the situation.
+      <p class="section-description">
+        Don't overthink it. The worse the situation,<br>
+        the better the excuse.
       </p>
 
-      <textarea
-        id="situation"
-        placeholder="e.g. bro i forgot to submit my assignment..."
-      ></textarea>
+      <div class="input-wrapper">
 
-      <div class="character-count">
-        <span id="charCount">0</span>
-        characters of questionable information
+        <textarea
+          id="situation"
+          maxlength="500"
+          placeholder="i forgot the assignment... i was late... i didn't reply..."
+        ></textarea>
+
+        <div class="input-bottom">
+          <span id="charCount">0 / 500</span>
+          <span>be honest-ish.</span>
+        </div>
+
       </div>
 
-      <button
-        type="button"
-        class="main-button"
-        id="continueButton"
-      >
-        <span>continue →</span>
+      <p class="error-message" id="situationError">
+        okay bestie... you gotta tell us what happened first 😭
+      </p>
+
+      <button class="main-button" id="continueButton">
+        generate my excuse
+        <span>→</span>
       </button>
 
-    </div>
+    </section>
 
-  </section>
+  </main>
 
 
-  <!-- ========================= -->
   <!-- ANALYSIS PAGE -->
-  <!-- ========================= -->
+  <main class="page" id="analysisPage">
 
-  <section id="analysisPage" class="page">
+    <section class="analysis-section">
 
-    <div class="analysis-container">
-
-      <div class="analysis-logo">
-        yBecozz<span>...</span>
+      <div class="loading-eyebrow">
+        AI DEFINITELY DOING SOMETHING IMPORTANT
       </div>
-
-      <div
-        id="analysisIcon"
-        class="analysis-icon"
-      >
-        ◌
-      </div>
-
-      <p class="analysis-label">
-        SITUATION ANALYSIS
-      </p>
 
       <h2 id="analysisTitle">
-        analyzing your problem...
+        analyzing your questionable situation...
       </h2>
 
-      <div class="analysis-bar">
+      <div class="analysis-progress-wrapper">
+
+        <div class="analysis-progress-track">
+          <div
+            class="analysis-progress"
+            id="analysisProgress"
+          ></div>
+        </div>
+
+        <div class="progress-number">
+          <span id="analysisPercent">0</span>%
+        </div>
+
+      </div>
+
+
+      <div class="status-list">
+
+        <div class="status-row" id="statusRow1">
+          <span class="status-icon">○</span>
+          <span>reading the situation...</span>
+        </div>
+
+        <div class="status-row" id="statusRow2">
+          <span class="status-icon">○</span>
+          <span>checking for suspicious details...</span>
+        </div>
+
+        <div class="status-row" id="statusRow3">
+          <span class="status-icon">○</span>
+          <span>removing accountability...</span>
+        </div>
+
+        <div class="status-row" id="statusRow4">
+          <span class="status-icon">○</span>
+          <span>creating a believable narrative...</span>
+        </div>
+
+      </div>
+
+
+      <div class="analysis-result" id="analysisResult">
+        STATUS: DUCK REQUIRED
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- DUCK GAME PAGE -->
+  <main class="page game-page" id="taskPage">
+
+    <section class="game-section">
+
+      <div class="game-top">
+
+        <div class="game-label">
+          EXTREMELY IMPORTANT TASK
+        </div>
+
+        <h2>catch the duck.</h2>
+
+        <p>
+          click the duck <strong>10 times.</strong><br>
+          this is somehow necessary.
+        </p>
+
+      </div>
+
+
+      <div class="game-area" id="gameArea">
+
+        <button class="duck" id="duck" aria-label="Catch the duck">
+          🦆
+        </button>
+
+      </div>
+
+
+      <div class="game-bottom">
+
+        <div class="click-counter">
+          DUCK HITS:
+          <strong id="clickCount">0 / 10</strong>
+        </div>
+
+        <div class="game-progress-track">
+          <div
+            class="game-progress"
+            id="gameProgress"
+          ></div>
+        </div>
+
+        <div class="game-progress-text" id="gameProgressText">
+          okay easy.
+        </div>
+
+        <div class="task-message" id="taskMessage">
+          please take this seriously.
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- REWARD LOADING OVERLAY -->
+  <div class="reward-overlay" id="rewardOverlay">
+
+    <div class="reward-loading-box">
+
+      <div class="reward-loading-title">
+        ACCESSING REWARD...
+      </div>
+
+      <div class="reward-loading-track">
         <div
-          id="analysisProgress"
-          class="analysis-progress"
+          class="reward-loading-progress"
+          id="rewardLoadingProgress"
         ></div>
       </div>
 
-      <p
-        id="analysisPercent"
-        class="analysis-percent"
-      >
-        0%
-      </p>
-
-
-      <div class="analysis-status">
-
-        <div
-          id="statusRow1"
-          class="status-row"
-        >
-          <span id="statusDot1">○</span>
-          <span id="status1">
-            detecting problem...
-          </span>
-        </div>
-
-
-        <div
-          id="statusRow2"
-          class="status-row"
-        >
-          <span id="statusDot2">○</span>
-          <span id="status2">
-            measuring panic levels...
-          </span>
-        </div>
-
-
-        <div
-          id="statusRow3"
-          class="status-row"
-        >
-          <span id="statusDot3">○</span>
-          <span id="status3">
-            overthinking...
-          </span>
-        </div>
-
-
-        <div
-          id="statusRow4"
-          class="status-row"
-        >
-          <span id="statusDot4">○</span>
-          <span id="status4">
-            finding unnecessary solution...
-          </span>
-        </div>
-
+      <div class="reward-loading-percent">
+        <span id="rewardLoadingPercent">0</span>%
       </div>
-
 
       <div
-        id="analysisResult"
-        class="analysis-result"
+        class="reward-loading-status"
+        id="rewardLoadingStatus"
       >
-        STATUS:
-        <span>PROCESSING</span>
+        connecting to excuse database...
+      </div>
+
+      <div
+        class="database-unlocked"
+        id="databaseUnlocked"
+      >
+        EXCUSE DATABASE UNLOCKED
       </div>
 
     </div>
 
-  </section>
+  </div>
 
 
-  <!-- ========================= -->
-  <!-- DUCK TASK PAGE -->
-  <!-- ========================= -->
-
-  <section id="taskPage" class="page">
-
-    <div class="content-card task-card">
-
-      <div class="page-number">
-        02 / 03
-      </div>
-
-      <div class="task-badge">
-        ⚠️ IMPORTANT
-      </div>
-
-      <h2>
-        before we give you<br>
-        your excuse...
-      </h2>
-
-      <p class="task-title">
-        you must complete this
-        <span>extremely important</span>
-        task.
-      </p>
-
-
-      <div class="useless-box">
-
-        <div class="task-instruction">
-
-          <span>🦆</span>
-
-          <p>
-            <strong>Catch the duck.</strong><br>
-            <small>
-              This has absolutely nothing to do with your excuse.
-            </small>
-          </p>
-
-        </div>
-
-
-        <div id="gameArea">
-
-          <button
-            type="button"
-            id="duck"
-          >
-            🦆
-          </button>
-
-        </div>
-
-
-        <div class="game-progress">
-
-          <div class="game-progress-bar">
-
-            <div
-              id="gameProgress"
-            ></div>
-
-          </div>
-
-          <span>
-            <span id="clickCount">0</span>
-            / 10
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <p
-        id="taskMessage"
-        class="task-message"
-      >
-        catch it. trust us. this is extremely important.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- ========================= -->
   <!-- REWARD PAGE -->
-  <!-- ========================= -->
+  <main class="page" id="rewardPage">
 
-  <section id="rewardPage" class="page">
-
-    <div class="reward-container">
-
-      <div class="page-number">
-        03 / 03
-      </div>
+    <section class="reward-section">
 
       <div class="reward-label">
-        ✦ TASK COMPLETE ✦
+        YOUR EXCUSE HAS ARRIVED
       </div>
 
-      <h2>
-        you earned an excuse.
-      </h2>
+      <h2>congratulations, i guess.</h2>
 
-      <p class="reward-subtext">
-        unfortunately... this is what we came up with.
-      </p>
+      <div class="excuse-card" id="excuseCard">
 
-
-      <div class="excuse-reveal">
-
-        <div class="excuse-top">
-
-          <span>
-            YOUR EXCUSE
-          </span>
-
-          <span>
-            💀
-          </span>
-
+        <div class="excuse-card-top">
+          <span>GENERATED EXCUSE</span>
+          <span>NOT PROFESSIONAL</span>
         </div>
-
 
         <p id="finalExcuse">
-          loading your disaster...
+          your excuse is loading...
         </p>
-
-
-        <div class="excuse-stamp">
-          NOT PROFESSIONAL
-        </div>
 
       </div>
 
 
       <div class="reward-actions">
 
-        <button
-          type="button"
-          class="secondary-button"
-          id="copyButton"
-        >
-          📋 steal this excuse
-        </button>
-
-
-        <button
-          type="button"
-          class="main-button"
-          id="restartButton"
-        >
-          <span>i need another one</span>
+        <button class="main-button secondary-button" id="restartButton">
+          i need another one
           <span>↻</span>
         </button>
 
       </div>
 
+      <p class="reward-footer-text">
+        use responsibly. or don't.
+      </p>
 
-      <p
-        id="copyMessage"
-        class="copy-message"
-      ></p>
+    </section>
+
+  </main>
+
+
+  <!-- DAILY LIMIT MODAL -->
+  <div class="limit-overlay" id="limitOverlay">
+
+    <div class="limit-modal">
+
+      <div class="limit-emoji">
+        😭
+      </div>
+
+      <h2>that's enough lying for today.</h2>
+
+      <p>
+        you've reached today's excuse limit.<br>
+        please go experience consequences now.
+      </p>
+
+      <button class="main-button" id="limitCloseButton">
+        fine...
+      </button>
 
     </div>
 
-  </section>
+  </div>
 
-
-  <!-- FOOTER -->
 
   <footer>
-    yBecozz...
-    &nbsp;•&nbsp;
-    absolutely no responsibility assumed.
+    yBecozz... — absolutely no responsibility assumed.
   </footer>
 
 
-  <!-- JAVASCRIPT -->
   <script src="script.js"></script>
 
 </body>
-</html>`
+</html>

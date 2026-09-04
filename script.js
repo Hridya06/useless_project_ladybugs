@@ -1,854 +1,1040 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
-  // ==========================================
-  // GET HTML ELEMENTS
-  // ==========================================
+  /* =========================
+     PAGE ELEMENTS
+  ========================= */
 
-  const homePage = document.getElementById("homePage");
-  const situationPage = document.getElementById("situationPage");
-  const analysisPage = document.getElementById("analysisPage");
-  const taskPage = document.getElementById("taskPage");
-  const rewardPage = document.getElementById("rewardPage");
+  const pages = {
+    home: document.getElementById("homePage"),
+    situation: document.getElementById("situationPage"),
+    analysis: document.getElementById("analysisPage"),
+    task: document.getElementById("taskPage"),
+    reward: document.getElementById("rewardPage")
+  };
 
-  const stepText = document.getElementById("stepText");
+
+  const logoButton = document.getElementById("logoButton");
 
   const letsLieButton = document.getElementById("letsLieButton");
+
+  const situation = document.getElementById("situation");
+  const charCount = document.getElementById("charCount");
+  const situationError = document.getElementById("situationError");
   const continueButton = document.getElementById("continueButton");
 
-  const situationInput = document.getElementById("situation");
-  const charCount = document.getElementById("charCount");
 
+  const analysisTitle = document.getElementById("analysisTitle");
   const analysisProgress = document.getElementById("analysisProgress");
   const analysisPercent = document.getElementById("analysisPercent");
-  const analysisTitle = document.getElementById("analysisTitle");
+
+  const statusRows = [
+    document.getElementById("statusRow1"),
+    document.getElementById("statusRow2"),
+    document.getElementById("statusRow3"),
+    document.getElementById("statusRow4")
+  ];
+
   const analysisResult = document.getElementById("analysisResult");
 
-  const duck = document.getElementById("duck");
+
   const gameArea = document.getElementById("gameArea");
-  const gameProgress = document.getElementById("gameProgress");
+  const duck = document.getElementById("duck");
+
   const clickCount = document.getElementById("clickCount");
+  const gameProgress = document.getElementById("gameProgress");
+  const gameProgressText = document.getElementById("gameProgressText");
   const taskMessage = document.getElementById("taskMessage");
 
+
+  const rewardOverlay = document.getElementById("rewardOverlay");
+  const rewardLoadingProgress =
+    document.getElementById("rewardLoadingProgress");
+  const rewardLoadingPercent =
+    document.getElementById("rewardLoadingPercent");
+  const rewardLoadingStatus =
+    document.getElementById("rewardLoadingStatus");
+  const databaseUnlocked =
+    document.getElementById("databaseUnlocked");
+
+
   const finalExcuse = document.getElementById("finalExcuse");
-  const copyButton = document.getElementById("copyButton");
   const restartButton = document.getElementById("restartButton");
-  const copyMessage = document.getElementById("copyMessage");
 
 
-  // ==========================================
-  // PAGE TRANSITION
-  // ==========================================
+  const limitOverlay = document.getElementById("limitOverlay");
+  const limitCloseButton = document.getElementById("limitCloseButton");
 
-  function showPage(page) {
 
-    const pages = [
-      homePage,
-      situationPage,
-      analysisPage,
-      taskPage,
-      rewardPage
-    ];
+  /* =========================
+     STATE
+  ========================= */
 
-    pages.forEach(function (item) {
-      if (item) {
-        item.classList.remove("active");
-      }
+  let currentSituation = "";
+
+  let duckHits = 0;
+
+  let analysisTimer = null;
+
+  let rewardTimer = null;
+
+  let audioContext = null;
+
+
+  /* =========================
+     PAGE SWITCHING
+  ========================= */
+
+  function showPage(pageName) {
+
+    Object.values(pages).forEach(page => {
+      page.classList.remove("active");
     });
 
-    if (page) {
-      page.classList.add("active");
+    if (pages[pageName]) {
+      pages[pageName].classList.add("active");
     }
 
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: "instant"
     });
   }
 
 
-  // ==========================================
-  // HOME → SITUATION
-  // ==========================================
+  /* =========================
+     HOME
+  ========================= */
 
-  if (letsLieButton) {
+  letsLieButton.addEventListener("click", () => {
 
-    letsLieButton.addEventListener("click", function () {
+    situationError.classList.remove("show");
 
-      showPage(situationPage);
+    showPage("situation");
 
-      if (stepText) {
-        stepText.textContent = "situation";
+    setTimeout(() => {
+      situation.focus();
+    }, 300);
+
+  });
+
+
+  logoButton.addEventListener("click", () => {
+
+    stopTimers();
+
+    rewardOverlay.classList.remove("show");
+    limitOverlay.classList.remove("show");
+
+    resetEverything();
+
+    showPage("home");
+
+  });
+
+
+  /* =========================
+     TEXTAREA
+  ========================= */
+
+  situation.addEventListener("input", () => {
+
+    const length = situation.value.length;
+
+    charCount.textContent = `${length} / 500`;
+
+    if (length > 0) {
+      situationError.classList.remove("show");
+    }
+
+  });
+
+
+  /* =========================
+     CONTINUE BUTTON
+  ========================= */
+
+  continueButton.addEventListener("click", () => {
+
+    const text = situation.value.trim();
+
+    if (!text) {
+
+      situationError.classList.add("show");
+
+      situation.focus();
+
+      return;
+    }
+
+
+    currentSituation = text;
+
+    situationError.classList.remove("show");
+
+    startAnalysis();
+
+  });
+
+
+  /* =========================
+     ANALYSIS
+  ========================= */
+
+  function startAnalysis() {
+
+    stopTimers();
+
+    showPage("analysis");
+
+    analysisProgress.style.width = "0%";
+    analysisPercent.textContent = "0";
+
+    analysisResult.classList.remove("show");
+
+    statusRows.forEach(row => {
+      row.classList.remove("completed");
+
+      const icon = row.querySelector(".status-icon");
+
+      if (icon) {
+        icon.textContent = "○";
       }
-
-      if (situationInput) {
-        setTimeout(function () {
-          situationInput.focus();
-        }, 400);
-      }
-
     });
 
-  }
 
+    analysisTitle.textContent =
+      "analyzing your questionable situation...";
 
-  // ==========================================
-  // CHARACTER COUNTER
-  // ==========================================
-
-  if (situationInput && charCount) {
-
-    situationInput.addEventListener("input", function () {
-      charCount.textContent = situationInput.value.length;
-    });
-
-  }
-
-
-  // ==========================================
-  // SITUATION → ANALYSIS
-  // ==========================================
-
-  if (continueButton) {
-
-    continueButton.addEventListener("click", function () {
-
-      const situation = situationInput.value.trim();
-
-      if (situation.length === 0) {
-
-        situationInput.focus();
-
-        situationInput.placeholder =
-          "bro you gotta tell us SOMETHING 😭";
-
-        return;
-      }
-
-      showPage(analysisPage);
-
-      if (stepText) {
-        stepText.textContent = "analyzing...";
-      }
-
-      runAnalysis();
-
-    });
-
-  }
-
-
-  // ==========================================
-  // FAKE ANALYSIS
-  // ==========================================
-
-  function resetAnalysis() {
-
-    if (analysisProgress) {
-      analysisProgress.style.width = "0%";
-    }
-
-    if (analysisPercent) {
-      analysisPercent.textContent = "0%";
-    }
-
-    if (analysisTitle) {
-      analysisTitle.textContent =
-        "analyzing your problem...";
-    }
-
-    if (analysisResult) {
-      analysisResult.innerHTML =
-        'STATUS: <span>PROCESSING</span>';
-    }
-
-    for (let i = 1; i <= 4; i++) {
-
-      const row = document.getElementById(
-        "statusRow" + i
-      );
-
-      const dot = document.getElementById(
-        "statusDot" + i
-      );
-
-      const status = document.getElementById(
-        "status" + i
-      );
-
-      if (row) {
-        row.classList.remove("done");
-      }
-
-      if (dot) {
-        dot.textContent = "○";
-      }
-
-      if (status) {
-
-        const originalStatuses = [
-          "detecting problem...",
-          "measuring panic levels...",
-          "overthinking...",
-          "finding unnecessary solution..."
-        ];
-
-        status.textContent =
-          originalStatuses[i - 1];
-
-      }
-
-    }
-
-  }
-
-
-  function runAnalysis() {
-
-    resetAnalysis();
 
     let progress = 0;
 
-    const statusSteps = [
-      {
-        percent: 20,
-        row: 1,
-        title: "problem detected.",
-        message: "problem detected."
-      },
-      {
-        percent: 40,
-        row: 2,
-        title: "this is concerning...",
-        message: "panic levels measured."
-      },
-      {
-        percent: 60,
-        row: 3,
-        title: "we're overthinking this...",
-        message: "overthinking activated."
-      },
-      {
-        percent: 80,
-        row: 4,
-        title: "questioning everything...",
-        message: "unnecessary solution located."
-      },
-      {
-        percent: 100,
-        row: 4,
-        title: "solution found.",
-        message: "solution found."
+
+    analysisTimer = setInterval(() => {
+
+      const increase =
+        Math.floor(Math.random() * 5) + 1;
+
+      progress += increase;
+
+
+      if (progress >= 100) {
+        progress = 100;
       }
+
+
+      analysisProgress.style.width = `${progress}%`;
+
+      analysisPercent.textContent = progress;
+
+
+      updateAnalysisStatuses(progress);
+
+
+      if (progress < 25) {
+
+        analysisTitle.textContent =
+          "analyzing your questionable situation...";
+
+      } else if (progress < 50) {
+
+        analysisTitle.textContent =
+          "detecting possible excuses...";
+
+      } else if (progress < 75) {
+
+        analysisTitle.textContent =
+          "removing all accountability...";
+
+      } else if (progress < 100) {
+
+        analysisTitle.textContent =
+          "making this sound believable...";
+
+      } else {
+
+        analysisTitle.textContent =
+          "analysis complete. unfortunately.";
+
+        clearInterval(analysisTimer);
+
+        analysisTimer = null;
+
+        setTimeout(() => {
+
+          analysisResult.classList.add("show");
+
+        }, 250);
+
+        setTimeout(() => {
+
+          showPage("task");
+
+          resetDuckGame();
+
+        }, 1400);
+
+      }
+
+    }, 90);
+
+  }
+
+
+  function updateAnalysisStatuses(progress) {
+
+    const thresholds = [
+      22,
+      45,
+      68,
+      88
     ];
 
-    let currentStep = 0;
 
-    const analysisTimer = setInterval(function () {
+    thresholds.forEach((threshold, index) => {
 
-      progress += 2;
+      if (progress >= threshold) {
 
-      if (analysisProgress) {
-        analysisProgress.style.width =
-          progress + "%";
+        const row = statusRows[index];
+
+        row.classList.add("completed");
+
+        const icon = row.querySelector(".status-icon");
+
+        if (icon) {
+          icon.textContent = "✓";
+        }
+
       }
 
-      if (analysisPercent) {
-        analysisPercent.textContent =
-          progress + "%";
+    });
+
+  }
+
+
+  /* =========================
+     DUCK GAME
+  ========================= */
+
+  const duckMessages = [
+    "okay easy.",
+    "wait",
+    "why is it faster",
+    "bro",
+    "THIS IS NOT WHAT I SIGNED UP FOR",
+    "someone call animal control",
+    "THE DUCK HAS ADAPTED",
+    "WE ARE LOSING",
+    "LOCK IN.",
+    "YOU HAVE DEFEATED THE DUCK."
+  ];
+
+
+  function resetDuckGame() {
+
+    duckHits = 0;
+
+    clickCount.textContent = "0 / 10";
+
+    gameProgress.style.width = "0%";
+
+    gameProgressText.textContent =
+      duckMessages[0];
+
+    taskMessage.textContent =
+      "please take this seriously.";
+
+
+    duck.disabled = false;
+
+    duck.classList.remove("defeated");
+
+    moveDuck(true);
+
+  }
+
+
+  duck.addEventListener("click", () => {
+
+    if (duckHits >= 10) {
+      return;
+    }
+
+
+    /* QUACK EVERY SINGLE CLICK */
+
+    quack();
+
+
+    duckHits++;
+
+
+    clickCount.textContent =
+      `${duckHits} / 10`;
+
+
+    const percentage =
+      (duckHits / 10) * 100;
+
+
+    gameProgress.style.width =
+      `${percentage}%`;
+
+
+    gameProgressText.textContent =
+      duckMessages[duckHits - 1];
+
+
+    updateTaskMessage();
+
+
+    if (duckHits >= 10) {
+
+      gameProgressText.textContent =
+        duckMessages[9];
+
+      taskMessage.textContent =
+        "you may now receive your completely useless reward.";
+
+      duck.disabled = true;
+
+      duck.classList.add("defeated");
+
+
+      setTimeout(() => {
+
+        showRewardLoading();
+
+      }, 850);
+
+
+      return;
+    }
+
+
+    moveDuck();
+
+  });
+
+
+  function updateTaskMessage() {
+
+    if (duckHits === 1) {
+
+      taskMessage.textContent =
+        "okay... that was suspiciously easy.";
+
+    } else if (duckHits === 2) {
+
+      taskMessage.textContent =
+        "why did it move.";
+
+    } else if (duckHits === 3) {
+
+      taskMessage.textContent =
+        "this is getting personal.";
+
+    } else if (duckHits === 4) {
+
+      taskMessage.textContent =
+        "you have made a terrible mistake.";
+
+    } else if (duckHits === 5) {
+
+      taskMessage.textContent =
+        "halfway there. unfortunately.";
+
+    } else if (duckHits === 6) {
+
+      taskMessage.textContent =
+        "the duck knows your strategy.";
+
+    } else if (duckHits === 7) {
+
+      taskMessage.textContent =
+        "it has evolved.";
+
+    } else if (duckHits === 8) {
+
+      taskMessage.textContent =
+        "DO NOT PANIC.";
+
+    } else if (duckHits === 9) {
+
+      taskMessage.textContent =
+        "ONE MORE. LOCK IN.";
+
+    }
+
+  }
+
+
+  function moveDuck(initial = false) {
+
+    if (!gameArea || !duck) {
+      return;
+    }
+
+
+    const areaRect =
+      gameArea.getBoundingClientRect();
+
+
+    const duckSize =
+      duck.offsetWidth;
+
+
+    const padding = 25;
+
+
+    const maxX =
+      Math.max(
+        padding,
+        areaRect.width - duckSize - padding
+      );
+
+
+    const maxY =
+      Math.max(
+        padding,
+        areaRect.height - duckSize - padding
+      );
+
+
+    let x;
+    let y;
+
+
+    if (initial) {
+
+      x =
+        (areaRect.width - duckSize) / 2;
+
+      y =
+        (areaRect.height - duckSize) / 2;
+
+    } else {
+
+      x =
+        Math.random() * maxX;
+
+      y =
+        Math.random() * maxY;
+
+    }
+
+
+    duck.style.left =
+      `${x}px`;
+
+    duck.style.top =
+      `${y}px`;
+
+    duck.style.transform =
+      "none";
+
+  }
+
+
+  /* =========================
+     QUACK SOUND
+  ========================= */
+
+  function quack() {
+
+    try {
+
+      if (!audioContext) {
+
+        const AudioContext =
+          window.AudioContext ||
+          window.webkitAudioContext;
+
+        if (!AudioContext) {
+          return;
+        }
+
+        audioContext =
+          new AudioContext();
+
       }
 
 
-      while (
-        currentStep < statusSteps.length &&
-        progress >= statusSteps[currentStep].percent
-      ) {
-
-        const step = statusSteps[currentStep];
-
-        const row = document.getElementById(
-          "statusRow" + step.row
-        );
-
-        const dot = document.getElementById(
-          "statusDot" + step.row
-        );
-
-        const status = document.getElementById(
-          "status" + step.row
-        );
-
-        if (row) {
-          row.classList.add("done");
-        }
-
-        if (dot) {
-          dot.textContent = "✓";
-        }
-
-        if (status) {
-          status.textContent = step.message;
-        }
-
-        if (analysisTitle) {
-          analysisTitle.textContent = step.title;
-        }
-
-        currentStep++;
-
+      if (audioContext.state === "suspended") {
+        audioContext.resume();
       }
+
+
+      const oscillator =
+        audioContext.createOscillator();
+
+      const gain =
+        audioContext.createGain();
+
+
+      oscillator.type = "sawtooth";
+
+
+      const now =
+        audioContext.currentTime;
+
+
+      oscillator.frequency.setValueAtTime(
+        420,
+        now
+      );
+
+
+      oscillator.frequency.exponentialRampToValueAtTime(
+        180,
+        now + 0.09
+      );
+
+
+      oscillator.frequency.exponentialRampToValueAtTime(
+        260,
+        now + 0.2
+      );
+
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        now
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.22,
+        now + 0.025
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.23
+      );
+
+
+      oscillator.connect(gain);
+
+      gain.connect(
+        audioContext.destination
+      );
+
+
+      oscillator.start(now);
+
+      oscillator.stop(now + 0.24);
+
+    } catch (error) {
+
+      console.log(
+        "quack sound unavailable"
+      );
+
+    }
+
+  }
+
+
+  /* =========================
+     REWARD LOADING
+  ========================= */
+
+  const rewardStatuses = [
+    "connecting to excuse database...",
+    "verifying questionable information...",
+    "searching excuse archives...",
+    "rejecting professional solutions...",
+    "removing all accountability...",
+    "this is getting concerning...",
+    "access granted."
+  ];
+
+
+  function showRewardLoading() {
+
+    stopTimers();
+
+    rewardOverlay.classList.add("show");
+
+    rewardLoadingProgress.style.width =
+      "0%";
+
+    rewardLoadingPercent.textContent =
+      "0";
+
+    databaseUnlocked.classList.remove("show");
+
+    rewardLoadingStatus.textContent =
+      rewardStatuses[0];
+
+
+    let progress = 0;
+
+
+    rewardTimer = setInterval(() => {
+
+      progress +=
+        Math.floor(Math.random() * 6) + 2;
+
+
+      if (progress >= 100) {
+        progress = 100;
+      }
+
+
+      rewardLoadingProgress.style.width =
+        `${progress}%`;
+
+      rewardLoadingPercent.textContent =
+        progress;
+
+
+      const statusIndex =
+        Math.min(
+          Math.floor(progress / 15),
+          rewardStatuses.length - 1
+        );
+
+
+      rewardLoadingStatus.textContent =
+        rewardStatuses[statusIndex];
 
 
       if (progress >= 100) {
 
-        clearInterval(analysisTimer);
+        clearInterval(rewardTimer);
 
-        setTimeout(function () {
+        rewardTimer = null;
 
-          if (analysisTitle) {
-            analysisTitle.textContent =
-              "we found a solution.";
-          }
 
-          if (analysisResult) {
-            analysisResult.innerHTML =
-              'STATUS: <span>PROBABLY FINE</span>';
-          }
+        databaseUnlocked.classList.add("show");
 
-        }, 200);
 
-        setTimeout(function () {
+        setTimeout(() => {
 
-          showPage(taskPage);
+          rewardOverlay.classList.remove("show");
 
-          if (stepText) {
-            stepText.textContent =
-              "important task";
-          }
+          generateExcuse();
 
-          resetGame();
+          showPage("reward");
 
-        }, 1200);
+        }, 1000);
 
       }
 
-    }, 55);
+    }, 100);
 
   }
 
 
-  // ==========================================
-  // DUCK GAME
-  // ==========================================
+  /* =========================
+     GEN-Z EXCUSES
+  ========================= */
 
-  let duckClicks = 0;
+  const excuses = {
 
-  const taskMessages = [
-    "catch it. trust us. this is extremely important.",
-    "why are you struggling to catch a duck 😭",
-    "the duck has seen things.",
-    "this is somehow your most important task today.",
-    "bro it's literally right there.",
-    "the duck is winning.",
-    "we're not judging.",
-    "okay you're getting closer...",
-    "THE DUCK FEARS YOU.",
-    "one more. you've got this.",
-    "absolute cinema. task complete."
-  ];
-
-
-  function resetGame() {
-
-    duckClicks = 0;
-
-    if (clickCount) {
-      clickCount.textContent = "0";
-    }
-
-    if (gameProgress) {
-      gameProgress.style.width = "0%";
-    }
-
-    if (taskMessage) {
-      taskMessage.textContent =
-        taskMessages[0];
-    }
-
-    if (duck) {
-      duck.style.left = "50%";
-      duck.style.top = "50%";
-    }
-
-  }
+    school: [
+      "bro i was gonna do it but my brain literally put the assignment on do not disturb 😭",
+      "i had every intention of doing it and then somehow it became tomorrow's problem 💀",
+      "not to be dramatic but the academic pressure was giving final boss and i simply logged off.",
+      "i opened the assignment, stared at it, and we mutually decided this wasn't happening.",
+      "my motivation left the group chat and unfortunately i cannot recover it.",
+      "i was locked in until i remembered i could also just... not be.",
+      "the assignment and i are currently taking some space. it's complicated.",
+      "i had a vision. the vision did not include actually submitting anything.",
+      "my brain said 'we'll do it later' and later has apparently been cancelled.",
+      "i was mentally prepared to do it. physically? absolutely not."
+    ],
 
 
-  function moveDuck() {
-
-    if (!duck || !gameArea) {
-      return;
-    }
-
-    const areaWidth = gameArea.clientWidth;
-    const areaHeight = gameArea.clientHeight;
-
-    const duckWidth = duck.offsetWidth;
-    const duckHeight = duck.offsetHeight;
-
-    const maxX = Math.max(
-      10,
-      areaWidth - duckWidth - 10
-    );
-
-    const maxY = Math.max(
-      10,
-      areaHeight - duckHeight - 10
-    );
-
-    const randomX =
-      Math.floor(Math.random() * maxX);
-
-    const randomY =
-      Math.floor(Math.random() * maxY);
-
-    duck.style.left =
-      randomX + duckWidth / 2 + "px";
-
-    duck.style.top =
-      randomY + duckHeight / 2 + "px";
-
-  }
+    late: [
+      "my bad gang, time was moving suspiciously fast today 😭",
+      "i was on the way and then somehow the universe hit me with a loading screen.",
+      "bro i swear i left on time. the clocks were just being weird.",
+      "i was gonna be early but then life said 'plot twist 💀'.",
+      "respectfully, the schedule and i were not communicating.",
+      "i lost track of time for like five minutes and apparently those five minutes were the entire morning.",
+      "i was moving at maximum speed. unfortunately maximum speed was still not enough.",
+      "the ETA was optimistic. that's on me and also the laws of time.",
+      "i genuinely thought i had more time. rookie mistake.",
+      "my arrival time was more of a suggestion tbh."
+    ],
 
 
-  if (duck) {
-
-    duck.addEventListener("click", function () {
-
-      duckClicks++;
-
-      if (clickCount) {
-        clickCount.textContent =
-          duckClicks;
-      }
-
-      if (gameProgress) {
-        gameProgress.style.width =
-          (duckClicks / 10 * 100) + "%";
-      }
+    message: [
+      "i saw your message, processed it emotionally, and then forgot to respond 😭",
+      "my bad, i mentally replied and apparently forgot the actual reply part.",
+      "i opened the message and my brain said 'we'll handle this later' 💀",
+      "i wasn't ignoring you, i was just buffering.",
+      "i had a response ready and then it evaporated like it owed me money.",
+      "the message was received. the reply unfortunately did not spawn.",
+      "my notifications were fighting for their lives and yours got caught in the crossfire.",
+      "i saw it and thought 'lemme reply in a sec'... famous last words.",
+      "my brain drafted the reply. unfortunately it never hit send.",
+      "not me accidentally putting your message in the mental drafts folder 😭"
+    ],
 
 
-      const messageIndex =
-        Math.min(
-          duckClicks,
-          taskMessages.length - 1
-        );
-
-      if (taskMessage) {
-        taskMessage.textContent =
-          taskMessages[messageIndex];
-      }
-
-
-      if (duckClicks >= 10) {
-
-        duck.disabled = true;
-
-        if (duck) {
-          duck.style.transform =
-            "translate(-50%, -50%) scale(1.3)";
-        }
-
-        if (taskMessage) {
-          taskMessage.textContent =
-            "absolute cinema. task complete. 🎉";
-        }
-
-        setTimeout(function () {
-
-          showReward();
-
-        }, 900);
-
-        return;
-      }
-
-      moveDuck();
-
-    });
-
-  }
+    meeting: [
+      "i was ready for the meeting until my brain scheduled a completely different meeting.",
+      "i genuinely forgot. like fully. zero thoughts. just vibes.",
+      "the meeting reminder appeared and my soul immediately left the premises.",
+      "i had it on my calendar and somehow still got jumpscared by it.",
+      "i was mentally unavailable in a way that was honestly impressive.",
+      "my brain saw 'meeting' and decided to uninstall the concept of time.",
+      "i was gonna join, then everything started happening at once. very cinematic.",
+      "the meeting and i simply missed each other's timelines.",
+      "i thought the meeting was later. the calendar disagrees and unfortunately has receipts.",
+      "my schedule was fighting for its life today 😭"
+    ],
 
 
-  // ==========================================
-  // TASK → REWARD
-  // ==========================================
-
-  function showReward() {
-
-    showPage(rewardPage);
-
-    if (stepText) {
-      stepText.textContent = "done";
-    }
-
-    generateExcuse();
-
-  }
+    sleep: [
+      "i was gonna get up but my bed had an insane argument with gravity and gravity won.",
+      "my alarm went off. i acknowledged it spiritually.",
+      "i woke up, looked at the time, and immediately entered denial mode.",
+      "my sleep schedule is currently under investigation.",
+      "i accidentally slept like it was my full-time job.",
+      "my alarm and i are no longer on speaking terms.",
+      "i said 'five more minutes' and apparently entered another dimension.",
+      "my body clock has decided to freestyle.",
+      "i was unconscious with incredible commitment.",
+      "sleep got a little too comfortable and i lacked the strength to intervene 💀"
+    ],
 
 
-  // ==========================================
-  // EXCUSE GENERATOR
-  // ==========================================
+    generic: [
+      "honestly bro, a lot happened and somehow none of it was my fault.",
+      "i would explain but the lore is genuinely too complicated 😭",
+      "something came up. then another thing came up. then i stopped keeping track.",
+      "long story short: absolutely nobody could've predicted this.",
+      "i had a plan. the plan had other plans.",
+      "things got a little silly and unfortunately i was present.",
+      "the situation escalated beyond my current skill level.",
+      "i was dealing with some extremely important nonsense.",
+      "there is context, but unfortunately the context makes it worse.",
+      "i'm not saying the universe was against me, but the evidence is mounting.",
+      "it was giving unexpected circumstances.",
+      "i fear the timeline simply did not cooperate.",
+      "i would like to formally blame the vibes.",
+      "everything was fine until it very suddenly wasn't 💀",
+      "i genuinely thought i'd get away with it. character development i guess.",
+      "the situation was unfortunately situation-ing.",
+      "i was doing my best. my best was apparently insufficient.",
+      "respectfully, that was not on today's bingo card.",
+      "the plot thickened and i was not emotionally prepared.",
+      "i regret to inform you that things got goofy."
+    ]
+
+  };
+
+
+  /* =========================
+     EXCUSE GENERATION
+  ========================= */
 
   function generateExcuse() {
 
-    const situation =
-      situationInput
-        ? situationInput.value.trim().toLowerCase()
-        : "";
-
-    let excuses = [];
+    const category =
+      detectCategory(currentSituation);
 
 
-    // ASSIGNMENT / HOMEWORK
-
-    if (
-      situation.includes("assignment") ||
-      situation.includes("homework") ||
-      situation.includes("project") ||
-      situation.includes("submit") ||
-      situation.includes("deadline")
-    ) {
-
-      excuses = [
-
-        "bro i literally had it done and then my laptop decided to become a decorative object 😭",
-
-        "i was about to submit it but my brain entered airplane mode.",
-
-        "the assignment was ready. unfortunately, my motivation was not.",
-
-        "i had every intention of submitting it and then time started moving suspiciously fast.",
-
-        "my file existed spiritually but apparently not digitally.",
-
-        "i opened the assignment to submit it and somehow ended up reorganizing my entire desktop.",
-
-        "bro the deadline and i simply had different plans."
-      ];
-
-    }
-
-
-    // LATE / SCHOOL / CLASS
-
-    else if (
-      situation.includes("late") ||
-      situation.includes("school") ||
-      situation.includes("class") ||
-      situation.includes("college") ||
-      situation.includes("meeting") ||
-      situation.includes("bus")
-    ) {
-
-      excuses = [
-
-        "bro the universe delayed me. i have no further questions at this time.",
-
-        "i was ready to leave but the laws of physics disagreed.",
-
-        "my transportation situation became a side quest.",
-
-        "i was on time mentally. unfortunately my body did not cooperate.",
-
-        "bro i left early and somehow arrived late. mathematically impossible.",
-
-        "there was a completely unnecessary sequence of events between me and being on time.",
-
-        "my morning had a software bug."
-      ];
-
-    }
-
-
-    // MESSAGE / PHONE / REPLY
-
-    else if (
-      situation.includes("reply") ||
-      situation.includes("message") ||
-      situation.includes("text") ||
-      situation.includes("call") ||
-      situation.includes("phone")
-    ) {
-
-      excuses = [
-
-        "bro i saw the message and then my brain immediately archived the entire conversation.",
-
-        "i was going to reply and then the notification disappeared into the void.",
-
-        "my phone and i are currently experiencing communication issues.",
-
-        "i read it, thought 'i'll reply in a second,' and then apparently three business days passed.",
-
-        "my brain opened the message but forgot to open the reply function.",
-
-        "i had a response prepared. unfortunately it remained in draft mode inside my head.",
-
-        "bro the notification got spiritually lost."
-      ];
-
-    }
-
-
-    // FORGOT / LOST
-
-    else if (
-      situation.includes("forgot") ||
-      situation.includes("remember") ||
-      situation.includes("lost") ||
-      situation.includes("missing")
-    ) {
-
-      excuses = [
-
-        "bro i remembered that i forgot it approximately five minutes after it became relevant.",
-
-        "my memory decided to take a completely unnecessary vacation.",
-
-        "i knew i had to remember something. unfortunately that was the thing i forgot.",
-
-        "my brain saved the information somewhere extremely inconvenient.",
-
-        "i remembered it spiritually. does that count?",
-
-        "the information was in my brain yesterday. the brain has since relocated it.",
-
-        "bro my memory is currently running on the free trial."
-      ];
-
-    }
-
-
-    // RANDOM CHAOS
-
-    else {
-
-      excuses = [
-
-        "bro honestly there was a lot happening and approximately none of it was useful.",
-
-        "i had a plan. the plan had a plan. neither plan survived.",
-
-        "my brain encountered an unexpected loading screen.",
-
-        "there was a completely unnecessary chain of events and somehow this happened.",
-
-        "i was going to handle it but then reality became mildly inconvenient.",
-
-        "bro i genuinely thought future me would deal with it. future me has filed a complaint.",
-
-        "the situation escalated from normal to unnecessarily complicated.",
-
-        "i blame the vibes.",
-        
-        "long story short: things happened, decisions were made, and here we are.",
-
-        "my brain said 'we'll figure it out later' and later has arrived."
-      ];
-
-    }
+    const categoryExcuses =
+      excuses[category] ||
+      excuses.generic;
 
 
     const randomIndex =
       Math.floor(
-        Math.random() * excuses.length
+        Math.random() *
+        categoryExcuses.length
       );
 
-    const selectedExcuse =
-      excuses[randomIndex];
+
+    finalExcuse.textContent =
+      categoryExcuses[randomIndex];
+
+  }
 
 
-    if (finalExcuse) {
+  function detectCategory(text) {
 
-      finalExcuse.style.opacity = "0";
-      finalExcuse.style.transform =
-        "translateY(10px)";
+    const lower =
+      text.toLowerCase();
 
-      setTimeout(function () {
 
-        finalExcuse.textContent =
-          selectedExcuse;
+    if (
+      lower.includes("school") ||
+      lower.includes("homework") ||
+      lower.includes("assignment") ||
+      lower.includes("class") ||
+      lower.includes("teacher") ||
+      lower.includes("exam") ||
+      lower.includes("test") ||
+      lower.includes("project")
+    ) {
+      return "school";
+    }
 
-        finalExcuse.style.transition =
-          "opacity 0.5s ease, transform 0.5s ease";
 
-        finalExcuse.style.opacity = "1";
+    if (
+      lower.includes("late") ||
+      lower.includes("arrive") ||
+      lower.includes("arrival") ||
+      lower.includes("traffic") ||
+      lower.includes("bus") ||
+      lower.includes("train") ||
+      lower.includes("missed")
+    ) {
+      return "late";
+    }
 
-        finalExcuse.style.transform =
-          "translateY(0)";
 
-      }, 250);
+    if (
+      lower.includes("text") ||
+      lower.includes("message") ||
+      lower.includes("reply") ||
+      lower.includes("respond") ||
+      lower.includes("dm") ||
+      lower.includes("chat") ||
+      lower.includes("notification")
+    ) {
+      return "message";
+    }
+
+
+    if (
+      lower.includes("meeting") ||
+      lower.includes("call") ||
+      lower.includes("zoom") ||
+      lower.includes("meet")
+    ) {
+      return "meeting";
+    }
+
+
+    if (
+      lower.includes("sleep") ||
+      lower.includes("slept") ||
+      lower.includes("wake") ||
+      lower.includes("alarm") ||
+      lower.includes("bed")
+    ) {
+      return "sleep";
+    }
+
+
+    return "generic";
+
+  }
+
+
+  /* =========================
+     ANOTHER ONE
+     DAILY LIMIT
+  ========================= */
+
+  restartButton.addEventListener("click", () => {
+
+    limitOverlay.classList.add("show");
+
+  });
+
+
+  limitCloseButton.addEventListener("click", () => {
+
+    limitOverlay.classList.remove("show");
+
+    stopTimers();
+
+    resetEverything();
+
+    showPage("home");
+
+  });
+
+
+  /* =========================
+     RESET
+  ========================= */
+
+  function resetEverything() {
+
+    currentSituation = "";
+
+    situation.value = "";
+
+    charCount.textContent =
+      "0 / 500";
+
+    situationError.classList.remove("show");
+
+    resetDuckGame();
+
+    finalExcuse.textContent =
+      "your excuse is loading...";
+
+    analysisProgress.style.width =
+      "0%";
+
+    analysisPercent.textContent =
+      "0";
+
+    analysisResult.classList.remove("show");
+
+    rewardOverlay.classList.remove("show");
+
+    databaseUnlocked.classList.remove("show");
+
+  }
+
+
+  /* =========================
+     STOP TIMERS
+  ========================= */
+
+  function stopTimers() {
+
+    if (analysisTimer) {
+
+      clearInterval(analysisTimer);
+
+      analysisTimer = null;
+
+    }
+
+
+    if (rewardTimer) {
+
+      clearInterval(rewardTimer);
+
+      rewardTimer = null;
 
     }
 
   }
 
 
-  // ==========================================
-  // COPY EXCUSE
-  // ==========================================
+  /* =========================
+     RESIZE
+  ========================= */
 
-  if (copyButton) {
+  window.addEventListener("resize", () => {
 
-    copyButton.addEventListener("click", function () {
+    if (pages.task.classList.contains("active")) {
 
-      if (!finalExcuse) {
-        return;
-      }
-
-      const text =
-        finalExcuse.textContent.trim();
-
-
-      if (!text) {
-        return;
-      }
-
-
-      if (
-        navigator.clipboard &&
-        window.isSecureContext
-      ) {
-
-        navigator.clipboard
-          .writeText(text)
-          .then(function () {
-
-            showCopyMessage(
-              "copied. go forth and make questionable decisions. 😭"
-            );
-
-          })
-          .catch(function () {
-
-            fallbackCopy(text);
-
-          });
-
-      } else {
-
-        fallbackCopy(text);
-
-      }
-
-    });
-
-  }
-
-
-  function fallbackCopy(text) {
-
-    const temporaryTextarea =
-      document.createElement("textarea");
-
-    temporaryTextarea.value = text;
-
-    temporaryTextarea.style.position =
-      "fixed";
-
-    temporaryTextarea.style.left =
-      "-9999px";
-
-    document.body.appendChild(
-      temporaryTextarea
-    );
-
-    temporaryTextarea.select();
-
-    try {
-
-      document.execCommand("copy");
-
-      showCopyMessage(
-        "copied. probably. 💀"
-      );
-
-    } catch (error) {
-
-      showCopyMessage(
-        "copy didn't work — select the excuse manually 😭"
-      );
+      moveDuck();
 
     }
 
-    document.body.removeChild(
-      temporaryTextarea
-    );
-
-  }
+  });
 
 
-  function showCopyMessage(message) {
+  /* =========================
+     INITIAL STATE
+  ========================= */
 
-    if (!copyMessage) {
-      return;
-    }
-
-    copyMessage.textContent =
-      message;
-
-    setTimeout(function () {
-
-      copyMessage.textContent = "";
-
-    }, 3000);
-
-  }
-
-
-  // ==========================================
-  // RESTART
-  // ==========================================
-
-  if (restartButton) {
-
-    restartButton.addEventListener("click", function () {
-
-      if (situationInput) {
-        situationInput.value = "";
-      }
-
-      if (charCount) {
-        charCount.textContent = "0";
-      }
-
-      if (copyMessage) {
-        copyMessage.textContent = "";
-      }
-
-      resetGame();
-
-      showPage(homePage);
-
-      if (stepText) {
-        stepText.textContent = "home";
-      }
-
-    });
-
-  }
-
-
-  // ==========================================
-  // INITIAL STATE
-  // ==========================================
-
-  showPage(homePage);
-
-  if (stepText) {
-    stepText.textContent = "home";
-  }
-
-  console.log("yBecozz... loaded successfully ✅");
+  showPage("home");
 
 });
