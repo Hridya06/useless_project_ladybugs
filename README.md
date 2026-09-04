@@ -115,7 +115,7 @@ Alternatively, use the **Live Server** extension in VS Code for a smoother devel
 
 ### 4. Reward Loading
 
-![Reward Loading](screenshots/rewardloading.png)
+![Reward Loading](rewardloading.png)
 
 *The secret excuse database is accessed through a very serious and definitely legitimate loading process.*
 
@@ -137,42 +137,8 @@ Alternatively, use the **Live Server** extension in VS Code for a smoother devel
 
 ### Workflow Overview
 
-```text
-                ┌─────────────────────┐
-                │       HOME PAGE     │
-                │  "okay... let's lie"│
-                └──────────┬──────────┘
-                           │
-                           ▼
-                ┌─────────────────────┐
-                │  ENTER SITUATION    │
-                │  "what happened?"   │
-                └──────────┬──────────┘
-                           │
-                           ▼
-                ┌─────────────────────┐
-                │   FAKE AI ANALYSIS  │
-                │  Removing blame...  │
-                └──────────┬──────────┘
-                           │
-                           ▼
-                ┌─────────────────────┐
-                │     DUCK GAME 🦆    │
-                │     Catch 10x       │
-                └──────────┬──────────┘
-                           │
-                           ▼
-                ┌─────────────────────┐
-                │  REWARD LOADING     │
-                │  Excuse Database    │
-                └──────────┬──────────┘
-                           │
-                           ▼
-                ┌─────────────────────┐
-                │   GENERATED EXCUSE  │
-                │   NOT PROFESSIONAL  │
-                └─────────────────────┘
-```
+textttt
+
 
 ---
 
@@ -180,14 +146,15 @@ Alternatively, use the **Live Server** extension in VS Code for a smoother devel
 
 ## Video
 
-[(https://drive.google.com/file/d/1pYALY_NhB2oFaaQYmCmexmKjrss6NO34/view?usp=sharing)]
+https://drive.google.com/file/d/1pYALY_NhB2oFaaQYmCmexmKjrss6NO34/view?usp=sharing
 
 *The demo video showcases the complete yBecozz... experience — entering a situation, going through the fake AI analysis, catching the duck, accessing the excuse database and receiving the final excuse.*
 
 ## Additional Demos
 
 * GitHub Repository: [Add repository link]
-* Live Demo: [Add live demo link if available]
+* Live Demo: https://drive.google.com/file/d/1pYALY_NhB2oFaaQYmCmexmKjrss6NO34/view?usp=sharing
+
 
 ---
 
@@ -209,11 +176,8 @@ Alternatively, use the **Live Server** extension in VS Code for a smoother devel
 
 # Team Contributions
 
-* **[Name 1]:** UI/UX design, HTML structure and overall project concept
-* **[Name 2]:** CSS styling, animations, responsive design and visual effects
-* **[Name 3]:** JavaScript functionality, excuse generation, duck game and interaction logic
-
----
+* **Adithya D:** UI/UX design, HTML structure and overall project concept,CSS styling, animations, responsive design and visual effects,JavaScript functionality, excuse generation, duck game and interaction logic
+* **Hridya S:** Technical support,project concep
 
 # Future Improvements
 
