@@ -1,6 +1,6 @@
 <img width="1280" height="640" alt="git (1)" src="https://github.com/user-attachments/assets/8920b256-2ba8-4988-b824-5351134eb4bd" />
 
-## yBecozz...
+# yBecozz...
 
 > Because sometimes you need an excuse.
 
@@ -8,7 +8,7 @@
 
 ### Team Name
 
-**[Ladybugs]**
+**Ladybugs**
 
 ### Team Members
 
@@ -131,15 +131,29 @@ Alternatively, use the **Live Server** extension in VS Code for a smoother devel
 
 ### Workflow
 
-![Workflow](diagrams/workflow.png)
+![Workflow](workflow.png)
 
 *The overall workflow of yBecozz... — from entering a situation to receiving the final excuse.*
 
 ### Workflow Overview
 
-textttt
-
-
+User Input
+    ↓
+Situation Analysis
+    ↓
+Fake AI Processing
+    ↓
+Duck Catching Challenge (10 hits)
+    ↓
+Excuse Database Loading
+    ↓
+Situation Categorization
+    ↓
+Random Gen-Z Excuse
+    ↓
+Excuse Display
+    ↓
+Daily Limit
 ---
 
 # Project Demo
@@ -176,8 +190,8 @@ https://drive.google.com/file/d/1pYALY_NhB2oFaaQYmCmexmKjrss6NO34/view?usp=shari
 
 # Team Contributions
 
-* **Adithya D:** UI/UX design, HTML structure and overall project concept,CSS styling, animations, responsive design and visual effects,JavaScript functionality, excuse generation, duck game and interaction logic
-* **Hridya S:** Technical support,project concep
+* **Adithya D:** UI/UX design,HTML structure and overall project concept,CSS styling, animations, responsive design and visual effects,JavaScript functionality,excuse generation, duck game and interaction logic.
+* **Hridya S:** Technical support,project concept.
 
 # Future Improvements
 
