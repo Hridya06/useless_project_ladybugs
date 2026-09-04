@@ -1,4 +1,3 @@
-<img width="1879" height="882" alt="Screenshot 2026-09-04 053530" src="https://github.com/user-attachments/assets/16a02387-8feb-47be-babd-2cb51be66805" />
 <img width="1280" height="640" alt="git (1)" src="https://github.com/user-attachments/assets/8920b256-2ba8-4988-b824-5351134eb4bd" /># yBecozz... 🎯
 
 > Because sometimes you need an excuse.
@@ -102,13 +101,13 @@ Alternatively, use the **Live Server** extension in VS Code for a smoother devel
 
 ### 2. Situation Page
 
-![Situation Page](screenshots/situation.png)
+![Situation Page](situation.png)
 
 *Users describe what happened before the website begins its extremely questionable analysis.*
 
 ### 3. Duck Game
 
-![Duck Game](screenshots/duck-game.png)
+![Duck Game](duck game.png)
 
 *The user must catch the duck 10 times because apparently this is essential to generating an excuse.*
 
@@ -120,7 +119,7 @@ Alternatively, use the **Live Server** extension in VS Code for a smoother devel
 
 ### 5. Generated Excuse
 
-![Generated Excuse](screenshots/reward.png)
+![Generated Excuse](generatedexcuse.png)
 
 *The final excuse is revealed after successfully completing the completely unnecessary duck challenge.*
 
