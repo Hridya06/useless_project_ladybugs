@@ -180,7 +180,7 @@ Alternatively, use the **Live Server** extension in VS Code for a smoother devel
 
 ## Video
 
-[Add your demo video link here]
+[(https://drive.google.com/file/d/1pYALY_NhB2oFaaQYmCmexmKjrss6NO34/view?usp=sharing)]
 
 *The demo video showcases the complete yBecozz... experience — entering a situation, going through the fake AI analysis, catching the duck, accessing the excuse database and receiving the final excuse.*
 
