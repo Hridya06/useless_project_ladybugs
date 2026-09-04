@@ -96,7 +96,7 @@ Alternatively, use the **Live Server** extension in VS Code for a smoother devel
 
 ### 1. Home Page
 
-![Home Page](screenshots/home.png)
+![Home Page](home.png)
 
 *The landing page of yBecozz..., where users are invited to begin their completely unnecessary excuse-generating journey.*
 
