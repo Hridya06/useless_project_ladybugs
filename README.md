@@ -12,8 +12,8 @@
 
 ### Team Members
 
-* **Team Lead:** [Adithya D] - [Lbs Institute of Technololgy for Women]
-* **Member 2:** [Hridya S] - [Lbs Institute of Technololgy for Women]
+* **Team Lead:** Adithya D - Lbs Institute of Technololgy for Women
+* **Member 2:** Hridya S - Lbs Institute of Technololgy for Women
 
 ---
 
